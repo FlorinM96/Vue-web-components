@@ -1,0 +1,31 @@
+{
+  "name": "florin-vue-web-components",
+  "version": "0.0.6",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/florin-vue-web-components.umd.cjs",
+  "module": "./dist/florin-vue-web-components.js",
+  "exports": {
+    ".": {
+      "import": "./dist/florin-vue-web-components.js",
+      "require": "./dist/florin-vue-web-components.umd.cjs"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "click-outside-vue3": "^4.0.1",
+    "node-sass": "^7.0.3",
+    "sass": "^1.55.0",
+    "vue": "^3.2.37"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.1.0",
+    "vite": "^3.1.0"
+  }
+}
