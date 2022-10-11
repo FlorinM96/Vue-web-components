@@ -14,7 +14,7 @@
           {{ selectedIndex === null ? placeholder : isTextValue ? options[selectedIndex].text : options[selectedIndex] }}
         </template>
         <div class="icon-wrapper">
-          <wc-icon :class="{ rotate: displayOptions }" icon="arrow-down" class="icon" />
+          <app-icon :class="{ rotate: displayOptions }" icon="arrow-down" class="icon" />
         </div>
       </div>
       <ul :class="{ opened: displayOptions }">
@@ -32,7 +32,7 @@
           @click="setValue(val.value || val)"
         >
           {{ isTextValue ? val.text : val }}
-          <wc-icon
+          <app-icon
             v-if="allowMultiple && (dropDownValue.some((x) => x === val) || (isTextValue && dropDownValue.some((x) => x === val.value)))"
             icon="check"
             class="selected-option-icon"
