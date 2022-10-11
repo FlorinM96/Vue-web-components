@@ -11,7 +11,7 @@
           {{ selectedIndex === null || !selectedIndex.length ? placeholder : dropDownValue.join(", ") }}
         </template>
         <template v-else>
-          {{ selectedIndex === null ? placeholder : isTextValue ? dropdownOptions[selectedIndex].text : dropdownOptions[selectedIndex] }}
+          {{ selectedIndex === null ? placeholder : isTextValue ? options[selectedIndex].text : options[selectedIndex] }}
         </template>
         <div class="icon-wrapper">
           <wc-icon :class="{ rotate: displayOptions }" icon="arrow-down" class="icon" />
@@ -19,7 +19,7 @@
       </div>
       <ul :class="{ opened: displayOptions }">
         <li
-          v-for="(val, index) in dropdownOptions"
+          v-for="(val, index) in options"
           :key="index"
           :class="[
             'value',
@@ -103,17 +103,14 @@ export default {
     displayOptions: false
   }),
   computed: {
-    dropdownOptions() {
-      return typeof this.options === "array" ? this.options : [];
-    },
     dropDownValue() {
       return this.modelvalue || this.value;
     },
     isTextValue() {
-      return this.dropdownOptions[0].text && (this.dropdownOptions[0].value || this.dropdownOptions[0].value === null);
+      return this.options[0].text && (this.options[0].value || this.options[0].value === null);
     },
     filteredValues() {
-      return this.dropdownOptions.filter((value, i) => i !== this.selectedIndex);
+      return this.options.filter((value, i) => i !== this.selectedIndex);
     }
   },
   watch: {
@@ -125,13 +122,13 @@ export default {
       if (this.allowMultiple) {
         const selectedIndexes = this.isTextValue
           ? this.getCommonIndexes(
-              this.dropdownOptions.map((x) => x.value),
+              this.options.map((x) => x.value),
               newVal
             )
-          : this.getCommonIndexes(this.dropdownOptions, newVal);
+          : this.getCommonIndexes(this.options, newVal);
         this.selectedIndex = selectedIndexes;
       } else {
-        const index = this.dropdownOptions.findIndex((x) => {
+        const index = this.options.findIndex((x) => {
           const value = this.isTextValue ? x.value : x;
           return value === newVal;
         });
@@ -144,13 +141,13 @@ export default {
       if (this.allowMultiple) {
         const selectedIndexes = this.isTextValue
           ? this.getCommonIndexes(
-              this.dropdownOptions.map((x) => x.value),
+              this.options.map((x) => x.value),
               this.dropDownValue
             )
-          : this.getCommonIndexes(this.dropdownOptions, this.dropDownValue);
+          : this.getCommonIndexes(this.options, this.dropDownValue);
         this.selectedIndex = selectedIndexes;
       } else {
-        const index = this.dropdownOptions.findIndex((x) => {
+        const index = this.options.findIndex((x) => {
           const value = this.isTextValue ? x.value : x;
           return value === this.dropDownValue;
         });
@@ -180,7 +177,7 @@ export default {
           this.$emit("change", []);
           return;
         }
-        const index = this.dropdownOptions.findIndex((x) => {
+        const index = this.options.findIndex((x) => {
           const xValue = this.isTextValue ? x.value : x;
           return xValue === value;
         });
@@ -188,12 +185,12 @@ export default {
           this.selectedIndex = this.selectedIndex.filter((x) => x !== index);
         } else this.selectedIndex.push(index);
         const emitPayload = this.isTextValue
-          ? this.dropdownOptions
+          ? this.options
               .filter((x, i) => {
                 return this.selectedIndex.some((sel) => sel === i);
               })
               .map((x) => x.value)
-          : this.dropdownOptions.filter((x, i) => this.selectedIndex.some((sel) => sel === i));
+          : this.options.filter((x, i) => this.selectedIndex.some((sel) => sel === i));
 
         this.$emit("update:modelValue", emitPayload);
         this.$emit("change", emitPayload);
@@ -204,13 +201,13 @@ export default {
           this.$emit("update:modelValue", null);
           return;
         }
-        const index = this.dropdownOptions.findIndex((x) => {
+        const index = this.options.findIndex((x) => {
           const xValue = x.value || x;
           return xValue === value;
         });
         this.selectedIndex = index;
         this.displayOptions = false;
-        const emitPayload = this.isTextValue ? this.dropdownOptions[this.selectedIndex].value : this.dropdownOptions[this.selectedIndex];
+        const emitPayload = this.isTextValue ? this.options[this.selectedIndex].value : this.options[this.selectedIndex];
         this.$emit("update:modelValue", emitPayload);
         this.$emit("change", emitPayload);
       }
