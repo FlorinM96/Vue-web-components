@@ -9,11 +9,24 @@
   <body>
     <div id="app">
       <wc-button>asdf</wc-button>
-      <wc-input label="Label"></wc-input>
       <wc-checkbox label="Label" text="Should we use webcomponents?"></wc-checkbox>
+      <wc-dropdown id="wc-dropdown" change="{handleClick}"></wc-dropdown>
       <wc-icon icon="check"></wc-icon>
       <wc-icon-button icon="check"></wc-icon-button>
-      <wc-dropdown id="wc-dropdown" change="{handleClick}"></wc-dropdown>
+      <wc-input label="Label"></wc-input>
+      <wc-input-file label="label" placeholder="upload file"></wc-input-file>
+      <wc-input-number></wc-input-number>
+      <wc-input-range></wc-input-range>
+      <wc-tabs></wc-tabs>
+      <!-- <wc-popup>
+        <div>
+          <h2>Some popup tiltle</h2>
+          <p>
+            some popup description some popup description some popup description some popup description some popup description some popup
+            description some popup description some popup description some popup description
+          </p>
+        </div>
+      </wc-popup> -->
     </div>
     <script type="module" src="/src/main.js"></script>
     <script>

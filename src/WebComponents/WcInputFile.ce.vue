@@ -2,14 +2,13 @@
   <div class="form-input" :class="{ disabled }">
     <p class="label">{{ label }}</p>
     <label :for="'#fileInput-' + label" class="label-wrapper">
-      <wc-button icon="upload" class="upload-button">{{ placeholder }}</wc-button>
+      <wc-button icon="file-upload" class="upload-button">{{ placeholder }}</wc-button>
     </label>
     <input
       :class="['app-file', { error }]"
       :id="'#fileInput-' + label"
       ref="customInput"
       type="file"
-      :placeholder="placeholder"
       :accept="accept"
       :multiple="multiple"
     />
@@ -65,7 +64,6 @@ export default {
   font: var(--wc-paragraph4-regular-font);
   margin: 0 0 8px;
   color: #1c1c1c;
-  cursor: pointer;
 }
 .disabled {
   pointer-events: none;
@@ -77,8 +75,5 @@ export default {
   font: var(--wc-paragraph5-regular-font);
   color: var(--wc-color-status-negative-text);
   text-align: left;
-}
-.upload-button {
-  pointer-events: none;
 }
 </style>

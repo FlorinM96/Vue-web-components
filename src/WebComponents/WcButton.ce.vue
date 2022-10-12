@@ -6,12 +6,15 @@
     @click="$emit('click')"
     :style="{ padding: overridePadding, width, height, overrideStyle }"
   >
-    <slot />
+    <app-icon v-if="icon" :icon="icon" class="icon" />
+    <span class="text"> <slot /> </span>
   </button>
 </template>
 
 <script>
+import AppIcon from "../components/AppIcon.vue";
 export default {
+  components: { AppIcon },
   name: "wc-button",
   props: {
     disabled: {
@@ -31,6 +34,10 @@ export default {
       validator(value) {
         return ["primary", "secondary", "outline", "text"].includes(value);
       }
+    },
+    icon: {
+      type: String,
+      default: null
     },
     overrideWidth: {
       type: String,
@@ -139,6 +146,9 @@ export default {
     background: var(--wc-color-gray-300);
     color: var(--wc-color-misc-disabled);
     pointer-events: none;
+  }
+  .icon {
+    margin-right: 8px;
   }
 }
 </style>
