@@ -15,8 +15,8 @@ Object.keys(modules).forEach((fileName) => {
       }`;
   customElements.define(componentConfig.name, defineCustomElement(componentConfig));
 });
-// append styles
 
+// append styles
 // <style> for css
 let hasWCStyles = false;
 for (let item of document.head.getElementsByTagName("style")) {

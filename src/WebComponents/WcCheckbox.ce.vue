@@ -2,8 +2,8 @@
   <div class="appcheckbox">
     <span v-if="label" class="label">{{ label }}</span>
     <div class="checkbox-text-wrapper">
-      <div class="checkbox" :class="{ 'checkbox--checked': modelValue }" @click="check">
-        <wc-icon class="icon" icon="check" />
+      <div class="checkbox" :class="{ 'checkbox--checked': value }" @click="check">
+        <app-icon class="icon" icon="check" />
       </div>
       <span v-if="text" class="text">{{ text }}</span>
     </div>
@@ -11,10 +11,12 @@
 </template>
 
 <script>
+import AppIcon from "../components/AppIcon.vue";
 export default {
   name: "wc-checkbox",
+  components: { AppIcon },
   props: {
-    modelValue: {
+    value: {
       type: Boolean,
       default: true
     },
@@ -37,9 +39,8 @@ export default {
   },
   methods: {
     check() {
-      if (this.uncheck || !this.modelValue) {
-        this.$emit("update:modelValue", !this.modelValue);
-        this.$emit("change", !this.modelValue);
+      if (this.uncheck || !this.value) {
+        this.$emit("change", !this.value);
       }
     }
   }

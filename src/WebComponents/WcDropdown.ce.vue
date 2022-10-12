@@ -47,7 +47,7 @@
 
 <script>
 import vClickOutside from "click-outside-vue3";
-import AppIcon from "../AppIcon.vue";
+import AppIcon from "../components/AppIcon.vue";
 export default {
   name: "wc-dropdown",
   components: {

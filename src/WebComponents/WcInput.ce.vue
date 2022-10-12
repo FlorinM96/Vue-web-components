@@ -4,7 +4,7 @@
     <textarea
       v-if="type === 'textarea'"
       :rows="rows"
-      :value="inputValue"
+      :value="value"
       :class="['app-input', { error, disabled }]"
       :id="'#customInput-' + label"
       ref="customInput"
@@ -13,7 +13,7 @@
     />
     <input
       v-else
-      :value="inputValue"
+      :value="value"
       :class="['app-input', { error, disabled }]"
       :type="type"
       :id="'#customInput-' + label"
@@ -30,10 +30,6 @@
 export default {
   name: "wc-input",
   props: {
-    modelValue: {
-      type: [String, Number, Object],
-      default: ""
-    },
     value: {
       type: [String, Number, Object],
       default: ""
@@ -74,14 +70,8 @@ export default {
       default: false
     }
   },
-  computed: {
-    inputValue() {
-      return this.modelValue !== "" ? this.modelValue : this.value;
-    }
-  },
   methods: {
     updateValue() {
-      this.$emit("update:modelValue", this.$refs.customInput.value);
       this.$emit("input", this.$refs.customInput.value);
     }
   }
