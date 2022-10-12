@@ -151,3 +151,17 @@ if (!hasWCStyles) {
   style.id = "wc-styles";
   style.appendChild(document.createTextNode(css));
 }
+
+// TODO: directive to register model events for VUE
+// app.directive("maxchars", {
+//   bind(el, binding, vnode) {
+//     let maxChars = binding.value;
+//     let handler = function (e) {
+//       if (e.target.value.length > maxChars) {
+//         e.target.value = e.target.value.substr(0, maxChars);
+//         vnode.elm.dispatchEvent(new CustomEvent("input")); // added this
+//       }
+//     };
+//     el.addEventListener("input", handler);
+//   }
+// });

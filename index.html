@@ -9,10 +9,15 @@
   <body>
     <div id="app">
       <wc-button>asdf</wc-button>
-      <wc-input label="label"></wc-input>
+      <wc-input label="Label"></wc-input>
+      <wc-checkbox label="Label" text="Should we use webcomponents?"></wc-checkbox>
       <wc-icon icon="check"></wc-icon>
-      <wc-dropdown id="wc-dropdown"></wc-dropdown>
+      <wc-icon-button icon="check"></wc-icon-button>
+      <wc-dropdown id="wc-dropdown" change="{handleClick}"></wc-dropdown>
     </div>
     <script type="module" src="/src/main.js"></script>
+    <script>
+      document.getElementById("wc-dropdown").options = ["1234", "4567", "2345"];
+    </script>
   </body>
 </html>

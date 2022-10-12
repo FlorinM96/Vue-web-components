@@ -1,7 +1,6 @@
 <template>
-  <svg viewBox="0 0 24 24" v-bind="{ width, height }" v-html="displayIcon"></svg>
+  <svg viewBox="0 0 24 24" v-bind="$props" fill="currentColor" v-html="displayIcon"></svg>
 </template>
-
 <script>
 export default {
   props: {

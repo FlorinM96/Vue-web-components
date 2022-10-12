@@ -18,11 +18,7 @@ export default {
   props: {
     value: {
       type: Boolean,
-      default: true
-    },
-    uncheck: {
-      type: Boolean,
-      default: true
+      default: false
     },
     disabled: {
       type: Boolean,
@@ -39,15 +35,13 @@ export default {
   },
   methods: {
     check() {
-      if (this.uncheck || !this.value) {
-        this.$emit("change", !this.value);
-      }
+      this.$emit("change", !this.value);
     }
   }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .checkbox-text-wrapper {
   display: flex;
   align-items: center;
