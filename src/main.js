@@ -1,6 +1,6 @@
 import { defineCustomElement } from "vue";
 
-const modules = import.meta.globEager("./components/WebComponents/*.ce.vue");
+const modules = import.meta.globEager("./WebComponents/*.ce.vue");
 // For each matching file name...
 Object.keys(modules).forEach((fileName) => {
   // Get component config
