@@ -3,7 +3,6 @@
     :disabled="disabled"
     type="button"
     :class="['btn', variant, size]"
-    @click="$emit('click')"
     :style="{ padding: overridePadding, width, height, overrideStyle }"
   >
     <app-icon v-if="icon" :icon="icon" class="icon" />

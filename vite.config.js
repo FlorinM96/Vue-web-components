@@ -12,6 +12,7 @@ export default {
     vue({
       template: {
         compilerOptions: {
+          isCustomElement: (tag) => tag.includes("wc-"),
           customElement: true,
           css: true
         }
