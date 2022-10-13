@@ -1,6 +1,6 @@
 <template>
   <div class="tabs">
-    <span v-for="(tab, i) in tabs" :key="i" :class="['tab', { active: selectedIndex === i }]" @click="$emit('select', i)">
+    <span v-for="(tab, i) in tabs" :key="i" :class="['tab', { active: selected === i }]" @click="$emit('select', i)">
       {{ tab.name }}
     </span>
   </div>
@@ -14,7 +14,7 @@ export default {
       type: Array,
       required: true
     },
-    selectedIndex: {
+    selected: {
       type: Number,
       default: 0
     }
@@ -31,18 +31,17 @@ export default {
 .tab {
   font: var(--wc-paragraph3-regular-font);
   cursor: pointer;
-  color: var(--wc-color-primary-500);
-  padding: 6px 10px;
-  border-radius: 5px;
-  &:not(:nth-last-child(1)) {
-    margin-right: 20px;
-  }
+  color: var(--wc-color-gray-800);
+  border-bottom: 2px solid var(--wc-color-gray-600);
+  padding: 8.5px 16px 8.5px 0;
+
   &.active {
-    font: var(--wc-paragraph3-bold-font);
-    background-color: var(--wc-color-primary-200);
+    color: var(--wc-color-primary-400);
+    border-bottom: 2px solid var(--wc-color-primary-400);
   }
   &:hover {
-    background-color: var(--wc-color-primary-200);
+    color: var(--wc-color-primary-300);
+    border-bottom: 2px solid var(--wc-color-primary-300);
   }
 }
 </style>

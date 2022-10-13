@@ -7,7 +7,7 @@
     <title>Vite + Vue</title>
   </head>
   <body>
-    <div id="app">
+    <div id="app" style="display: flex; flex-direction: column; align-items: stretch; width: 350px; margin: 200px auto">
       <wc-button>asdf</wc-button>
       <wc-checkbox label="Label" text="Should we use webcomponents?"></wc-checkbox>
       <wc-dropdown id="wc-dropdown" change="{handleClick}"></wc-dropdown>
@@ -17,20 +17,20 @@
       <wc-input-file label="label" placeholder="upload file"></wc-input-file>
       <wc-input-number></wc-input-number>
       <wc-input-range></wc-input-range>
-      <wc-tabs></wc-tabs>
-      <!-- <wc-popup>
-        <div>
-          <h2>Some popup tiltle</h2>
-          <p>
-            some popup description some popup description some popup description some popup description some popup description some popup
-            description some popup description some popup description some popup description
-          </p>
-        </div>
-      </wc-popup> -->
+      <wc-tabs id="tabs"></wc-tabs>
     </div>
     <script type="module" src="/src/main.js"></script>
     <script>
-      document.getElementById("wc-dropdown").options = ["1234", "4567", "2345"];
+      const dropdown = document.getElementById("wc-dropdown");
+      // assign props
+      dropdown.options = ["1234", "4567", "2345"];
+
+      // catch events
+      dropdown.addEventListener("change", (e) => {
+        console.log(e);
+      });
+
+      const tabs = (document.getElementById("tabs").tabs = [{ name: "Tab 1" }, { name: "Tab 2" }, { name: "Tab 3" }]);
     </script>
   </body>
 </html>
