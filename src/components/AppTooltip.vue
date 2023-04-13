@@ -12,13 +12,18 @@
 </template>
 
 <script>
+import AppIcon from "./AppIcon.vue";
+
 export default {
+  components: {
+    AppIcon
+  },
   props: {
     direction: {
       type: String,
-      default: "top",
-    },
-  },
+      default: "top"
+    }
+  }
 };
 </script>
 

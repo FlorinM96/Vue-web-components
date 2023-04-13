@@ -44,9 +44,15 @@
 <script>
 import dayjs from "dayjs";
 import vClickOutside from "click-outside-vue3";
+import AppIcon from "../components/AppIcon.vue";
+import AppTooltip from "../components/AppTooltip.vue";
 
 export default {
   name: "wc-input-date",
+  components: {
+    AppIcon,
+    AppTooltip
+  },
   directives: {
     clickOutside: vClickOutside.directive
   },

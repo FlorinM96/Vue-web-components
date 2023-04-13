@@ -16,7 +16,7 @@
           <app-icon icon="arrow-down" class="selected-country-arrow" />
         </div>
         <div v-if="displayOptions" v-click-outside="hideValues" :class="['options-list', { opened: displayOptions }]">
-          <app-input v-model="countrySearch" @click.stop class="country-search-input" />
+          <input v-model="countrySearch" @click.stop class="country-search-input" />
           <ul>
             <li class="disabled" v-if="!dropdownOptions.length"><p>No results found</p></li>
             <li
@@ -52,8 +52,14 @@
 <script>
 import vClickOutside from "click-outside-vue3";
 import _ from "lodash";
+import AppIcon from "../components/AppIcon.vue";
+import AppTooltip from "../components/AppTooltip.vue";
 export default {
   name: "wc-input-phone",
+  components: {
+    AppIcon,
+    AppTooltip
+  },
   directives: {
     clickOutside: vClickOutside.directive
   },
@@ -1365,7 +1371,9 @@ export default {
     border-color: var(--wc-color-gray-900);
   }
 }
-
+p {
+  margin: 0;
+}
 .selected-country-wrapper {
   cursor: pointer;
   display: flex;
@@ -1373,6 +1381,7 @@ export default {
   padding: 1rem 0 1rem 1.6rem;
   .selected-country-value {
     font: var(--wc-paragraph4-regular-font);
+    margin: 0;
   }
   .selected-country-arrow {
     color: var(--wc-color-gray-700);
@@ -1407,11 +1416,24 @@ export default {
   .country-search-input {
     position: sticky;
     top: 0;
-    background-color: white;
     z-index: 1;
-  }
-  .country-search-input::v-deep .app-input {
+    font: var(--wc-paragraph4-regular-font);
+    width: 100%;
     padding: 0.4rem 0.8rem;
+    border: 0.2rem solid var(--wc-color-gray-700);
+    border-radius: 0.6rem;
+    ::placeholder {
+      /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: var(--wc-color-gray-700);
+    }
+    &:focus,
+    &:focus-visible {
+      border: 2px solid var(--wc-color-primary-400);
+      box-shadow: 0px 0px 3px #5a338b;
+    }
+    &:hover {
+      border-color: var(--wc-color-gray-900);
+    }
   }
 }
 

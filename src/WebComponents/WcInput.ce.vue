@@ -1,37 +1,48 @@
 <template>
-  <div class="form-input">
-    <label :for="'#customInput-' + label" class="label">{{ label }}</label>
+  <div :class="['form-input', { disabled }]">
+    <label v-if="label" class="label">
+      {{ label }}
+      <app-tooltip v-if="info" class="info-helptext">
+        <template v-slot:content>
+          {{ info }}
+        </template>
+      </app-tooltip>
+    </label>
     <textarea
-      v-if="type === 'textarea'"
+      v-if="type === 'textArea'"
+      :id="'#customInput-' + id"
       :rows="rows"
-      :value="value"
-      :class="['app-input', { error, disabled }]"
-      :id="'#customInput-' + label"
+      :value="modelValue"
+      :class="['app-input', { error }]"
       ref="customInput"
       :placeholder="placeholder"
       @input.stop="updateValue"
     />
     <input
       v-else
-      :value="value"
-      :class="['app-input', { error, disabled }]"
-      :type="type"
-      :id="'#customInput-' + label"
+      :value="modelValue"
+      class="app-input"
+      :class="['app-input', { error }]"
+      :type="type === 'phone' ? 'tel' : type"
       ref="customInput"
       :placeholder="placeholder"
       @input.stop="updateValue"
-      :required="required"
     />
-    <span v-if="error" class="error-msg">{{ error }}</span>
+    <div v-if="error" class="error-msg">{{ error }}</div>
   </div>
 </template>
 
 <script>
+import AppTooltip from "../components/AppTooltip.vue";
+
 export default {
   name: "wc-input",
+  components: {
+    AppTooltip
+  },
   props: {
-    value: {
-      type: [String, Number, Object],
+    modelValue: {
+      type: [String, Number],
       default: ""
     },
     label: {
@@ -46,14 +57,14 @@ export default {
       type: String,
       default: "text",
       validator(value) {
-        return ["text", "password", "email", "textarea", "date", "time", "tel"].includes(value);
+        return ["text", "password", "email", "textArea", "time"].includes(value);
       }
     },
     rows: {
       type: Number,
-      default: 3
+      default: 15
     },
-    helptext: {
+    info: {
       type: String,
       default: ""
     },
@@ -64,41 +75,34 @@ export default {
     disabled: {
       type: Boolean,
       default: false
-    },
-    required: {
-      type: Boolean,
-      default: false
+    }
+  },
+  computed: {
+    id() {
+      return Math.random();
     }
   },
   methods: {
     updateValue() {
-      this.$emit("input", this.$refs.customInput.value);
+      this.$emit("update:modelValue", this.$refs.customInput.value);
     }
   }
 };
 </script>
 
 <style lang="scss">
-input {
-  height: 48px;
-}
-input:focus-visible {
-  outline-width: 0;
-}
-
 .app-input {
-  font: var(--wc-paragraph2-regular-font);
-  margin: 8px 0;
+  font: var(--wc-paragraph4-regular-font);
   width: 100%;
   background: white;
   border: none;
   display: block;
-  padding: 12px 16px;
-  border: 0.15px solid var(--wc-color-gray-600);
-  border-radius: 6px;
+  padding: 1rem 1.6rem;
+  border: 0.2rem solid var(--wc-color-gray-700);
+  border-radius: 0.6rem;
   ::placeholder {
     /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: var(--wc-color-gray-300);
+    color: var(--wc-color-gray-700);
   }
   &:focus,
   &:focus-visible {
@@ -107,24 +111,29 @@ input:focus-visible {
   }
   &:hover {
     border-color: var(--wc-color-gray-900);
-    outline: none !important;
   }
 }
 
 .label {
-  font: var(--wc-paragraph4-regular-font);
+  font: var(--wc-paragraph4-medium-font);
   color: #1c1c1c;
+  display: flex;
+  align-items: center;
+  margin: 0 0 0.8rem;
 }
 
 .disabled {
   pointer-events: none;
 }
 .error {
-  border: 2px solid var(--wc-color-status-negative-text);
+  border: 2px solid red;
 }
 .error-msg {
   font: var(--wc-paragraph5-regular-font);
   color: var(--wc-color-status-negative-text);
   text-align: left;
+}
+.info-helptext {
+  margin-left: 0.8rem;
 }
 </style>
