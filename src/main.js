@@ -13,7 +13,8 @@ Object.keys(modules).forEach((fileName) => {
         :before {
         box-sizing: border-box;
       }`;
-  customElements.define(componentConfig.name, defineCustomElement(componentConfig));
+  console.log(componentConfig.name);
+  if (componentConfig.name) customElements.define(componentConfig.name, defineCustomElement(componentConfig));
 });
 
 // append styles
