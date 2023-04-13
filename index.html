@@ -10,7 +10,7 @@
     <div id="app" style="display: flex; flex-direction: column; align-items: stretch; width: 350px; margin: 200px auto">
       <wc-button>asdf</wc-button>
       <wc-checkbox label="Label" text="Should we use webcomponents?"></wc-checkbox>
-      <wc-dropdown id="wc-dropdown" change="{handleClick}"></wc-dropdown>
+      <wc-dropdown id="wc-dropdown"></wc-dropdown>
       <wc-icon icon="check"></wc-icon>
       <wc-icon-button icon="check"></wc-icon-button>
       <wc-input label="Label"></wc-input>
@@ -27,10 +27,10 @@
 
       // catch events
       dropdown.addEventListener("change", (e) => {
-        console.log(e);
+        console.log(e.detail[0]);
       });
 
-      const tabs = (document.getElementById("tabs").tabs = [{ name: "Tab 1" }, { name: "Tab 2" }, { name: "Tab 3" }]);
+      document.getElementById("tabs").tabs = [{ name: "Tab 1" }, { name: "Tab 2" }, { name: "Tab 3" }];
     </script>
   </body>
 </html>
