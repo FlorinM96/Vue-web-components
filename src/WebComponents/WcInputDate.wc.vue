@@ -46,8 +46,9 @@ import dayjs from "dayjs";
 import vClickOutside from "click-outside-vue3";
 
 export default {
+  name: "wc-input-date",
   directives: {
-    clickOutside: vClickOutside.directive,
+    clickOutside: vClickOutside.directive
   },
   props: {
     modelValue: {
@@ -55,33 +56,33 @@ export default {
       default: null,
       validator(value) {
         return dayjs(value).isValid;
-      },
+      }
     },
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
     placeholder: {
       type: String,
-      default: " ",
+      default: " "
     },
     label: {
       type: String,
-      default: "",
+      default: ""
     },
     info: {
       type: String,
-      default: "",
+      default: ""
     },
     // TODO: add range functionality
     asRange: {
       type: Boolean,
-      deafult: false,
+      deafult: false
     },
     error: {
       type: String,
-      default: "",
-    },
+      default: ""
+    }
   },
   data() {
     return {
@@ -92,13 +93,13 @@ export default {
       currDateCursor: null,
 
       dayLabels: ["M", "T", "W", "Th", "F", "S", "S"],
-      months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     };
   },
   watch: {
     modelValue(oldVal, newVal) {
       if (oldVal !== newVal) this.initComponent();
-    },
+    }
   },
   computed: {
     displayDate() {
@@ -140,11 +141,11 @@ export default {
           date: day.date(),
           isCurrentMonth: day.isSame(this.currDateCursor, "month"),
           isToday: day.isSame(dayjs(), "day"),
-          isSelected: day.isSame(this.selectedDate, "day"),
+          isSelected: day.isSame(this.selectedDate, "day")
         });
       }
       return result;
-    },
+    }
   },
   created() {
     const today = dayjs();
@@ -172,19 +173,19 @@ export default {
       return {
         today: day.isToday,
         current: day.isCurrentMonth,
-        selected: day.isSelected,
+        selected: day.isSelected
       };
     },
     monthClassObj(month) {
       return {
         today: dayjs().month(month).isSame(dayjs(), "month"),
-        selected: dayjs().month(month).isSame(this.selectedDate, "month"),
+        selected: dayjs().month(month).isSame(this.selectedDate, "month")
       };
     },
     yearMonthObj(year) {
       return {
         today: dayjs().year(year).isSame(dayjs(), "year"),
-        selected: dayjs().year(year).isSame(this.selectedDate, "year"),
+        selected: dayjs().year(year).isSame(this.selectedDate, "year")
       };
     },
     onNext() {
@@ -230,8 +231,8 @@ export default {
     setYear(year) {
       this.currDateCursor = this.selectedDate.year(year);
       this.activePicker = "date";
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -246,23 +247,23 @@ export default {
   border: 2px solid red;
 }
 .error-msg {
-  font: var(--paragraph5-regular-font);
-  color: var(--color-status-negative-text);
+  font: var(--wc-paragraph5-regular-font);
+  color: var(--wc-color-status-negative-text);
   text-align: left;
 }
 .info-helptext {
   margin-left: 0.8rem;
 }
 .label {
-  font: var(--paragraph4-medium-font);
+  font: var(--wc-paragraph4-medium-font);
   color: #1c1c1c;
   display: flex;
   align-items: center;
   margin: 0 0 0.8rem;
 }
 .input-value {
-  font: var(--paragraph4-regular-font);
-  border: 0.2rem solid var(--color-gray-700);
+  font: var(--wc-paragraph4-regular-font);
+  border: 0.2rem solid var(--wc-color-gray-700);
   border-radius: 0.6rem;
   outline: none;
   padding: 1rem 1.6rem;
@@ -295,18 +296,18 @@ export default {
 }
 .header {
   font-size: 1.25rem;
-  color: var(--color-primary-500);
+  color: var(--wc-color-primary-500);
   align-items: center;
   display: flex;
   justify-content: space-between;
   span {
     text-align: center;
-    font: var(--paragraph3-medium-font);
+    font: var(--wc-paragraph3-medium-font);
     cursor: pointer;
     border-radius: 0.8rem;
     padding: 0.8rem;
     &:hover {
-      background: var(--color-primary-100);
+      background: var(--wc-color-primary-100);
     }
   }
   .month-icon {
@@ -316,7 +317,7 @@ export default {
     padding: 0.8rem;
     border-radius: 0.8rem;
     &:hover {
-      background-color: var(--color-primary-50);
+      background-color: var(--wc-color-primary-50);
     }
   }
 }
@@ -330,20 +331,20 @@ export default {
     align-items: center;
     display: flex;
     justify-content: center;
-    color: var(--color-primary-700);
-    font: var(--paragraph4-regular-font);
+    color: var(--wc-color-primary-700);
+    font: var(--wc-paragraph4-regular-font);
     border-radius: 0.8rem;
     cursor: pointer;
     &.today {
-      color: var(--color-primary-accent-500);
-      font: var(--paragraph4-bold-font);
+      color: var(--wc-color-primary-accent-500);
+      font: var(--wc-paragraph4-bold-font);
     }
     &.selected {
-      background: var(--color-primary-accent-500);
+      background: var(--wc-color-primary-accent-500);
       color: white;
     }
     &:not(.selected):hover {
-      background: var(--color-primary-100);
+      background: var(--wc-color-primary-100);
       transition: background 150ms;
     }
   }
@@ -356,24 +357,24 @@ export default {
     align-items: center;
     display: flex;
     justify-content: center;
-    font: var(--paragraph4-bold-font);
-    color: var(--color-primary-700);
+    font: var(--wc-paragraph4-bold-font);
+    color: var(--wc-color-primary-700);
   }
   .day {
     align-items: center;
     display: flex;
     justify-content: center;
-    color: var(--color-primary-700);
-    font: var(--paragraph4-regular-font);
+    color: var(--wc-color-primary-700);
+    font: var(--wc-paragraph4-regular-font);
     opacity: 0.4;
     border-radius: 8px;
     cursor: pointer;
     &.today {
-      color: var(--color-primary-accent-500);
-      font: var(--paragraph4-bold-font);
+      color: var(--wc-color-primary-accent-500);
+      font: var(--wc-paragraph4-bold-font);
     }
     &.selected {
-      background: var(--color-primary-accent-500);
+      background: var(--wc-color-primary-accent-500);
       color: white;
     }
 
@@ -390,7 +391,7 @@ export default {
     }
 
     &:not(.selected):hover {
-      background: var(--color-primary-100);
+      background: var(--wc-color-primary-100);
       transition: background 150ms;
     }
   }
