@@ -1,20 +1,36 @@
 <template>
-  <div>
-    <span v-if="label" class="label">{{ label }}</span>
-    <nav v-click-outside="hideValues" class="nav" :class="{ disabled, 'dark-mode': darkMode }">
+  <div :class="{ disabled }">
+    <span v-if="label" class="label">
+      {{ label }}
+      <prime-tooltip v-if="info" class="info-helptext">
+        <span slot="content">
+          {{ info }}
+        </span>
+      </prime-tooltip>
+    </span>
+    <nav v-click-outside="hideValues" class="nav" :class="{ 'dark-mode': darkMode }">
       <div
         class="value selected-el"
         :class="{ 'is-selected': selectedIndex !== null, 'options-open': displayOptions }"
         @click="displayOptions = !displayOptions"
       >
         <template v-if="allowMultiple">
-          {{ selectedIndex === null || !selectedIndex.length ? placeholder : dropDownValue.join(", ") }}
+          {{
+            selectedIndex === null || !selectedIndex.length
+              ? placeholder
+              : isTextValue
+              ? options
+                  .filter((x) => modelValue.includes(x.value))
+                  .map((x) => x.text)
+                  .join(", ")
+              : modelValue.join(", ")
+          }}
         </template>
         <template v-else>
           {{ selectedIndex === null ? placeholder : isTextValue ? options[selectedIndex].text : options[selectedIndex] }}
         </template>
         <div class="icon-wrapper">
-          <app-icon :class="{ rotate: displayOptions }" icon="arrow-down" class="icon" />
+          <prime-icon :class="{ rotate: displayOptions }" icon="arrow-down" class="dropdown-icon" />
         </div>
       </div>
       <ul :class="{ opened: displayOptions }">
@@ -25,15 +41,19 @@
             'value',
             {
               'selected-option': allowMultiple
-                ? dropDownValue.some((x) => x === val) || (isTextValue && dropDownValue.some((x) => x === val.value))
-                : val === dropDownValue || val.value === dropDownValue
+                ? modelValue.some((x) => x === val) || (isTextValue && modelValue.some((x) => x === val.value))
+                : val === modelValue || val.value === modelValue
             }
           ]"
           @click="setValue(val.value || val)"
         >
           {{ isTextValue ? val.text : val }}
-          <app-icon
-            v-if="allowMultiple && (dropDownValue.some((x) => x === val) || (isTextValue && dropDownValue.some((x) => x === val.value)))"
+          <prime-icon
+            v-if="
+              allowMultiple
+                ? modelValue.some((x) => x === val) || (isTextValue && modelValue.some((x) => x === val.value))
+                : val === modelValue || val.value === modelValue
+            "
             icon="check"
             class="selected-option-icon"
           />
@@ -47,12 +67,7 @@
 
 <script>
 import vClickOutside from "click-outside-vue3";
-import AppIcon from "../components/AppIcon.vue";
 export default {
-  name: "wc-dropdown",
-  components: {
-    AppIcon
-  },
   directives: {
     clickOutside: vClickOutside.directive
   },
@@ -68,6 +83,10 @@ export default {
     placeholder: {
       type: String,
       default: "Select"
+    },
+    modelValue: {
+      type: [String, Array, Number, Boolean],
+      default: null
     },
     noneEnabled: {
       type: Boolean,
@@ -89,13 +108,9 @@ export default {
       type: String,
       default: ""
     },
-    modelValue: {
-      type: [String, Array],
-      default: null
-    },
-    value: {
-      type: [String, Array],
-      default: null
+    info: {
+      type: String,
+      default: ""
     }
   },
   data: () => ({
@@ -103,18 +118,15 @@ export default {
     displayOptions: false
   }),
   computed: {
-    dropDownValue() {
-      return this.modelvalue || this.value;
-    },
     isTextValue() {
-      return this.options[0].text && (this.options[0].value || this.options[0].value === null);
+      return this.options[0].text && (this.options[0].value || this.options[0].value === null || this.options[0].value === 0);
     },
     filteredValues() {
       return this.options.filter((value, i) => i !== this.selectedIndex);
     }
   },
   watch: {
-    dropDownValue(newVal) {
+    modelValue(newVal) {
       if (newVal === null) {
         this.selectedIndex = this.allowMultiple ? [] : null;
         return;
@@ -137,19 +149,19 @@ export default {
     }
   },
   mounted() {
-    if (this.dropDownValue) {
+    if (this.modelValue || this.modelValue === 0) {
       if (this.allowMultiple) {
         const selectedIndexes = this.isTextValue
           ? this.getCommonIndexes(
               this.options.map((x) => x.value),
-              this.dropDownValue
+              this.modelValue
             )
-          : this.getCommonIndexes(this.options, this.dropDownValue);
+          : this.getCommonIndexes(this.options, this.modelValue);
         this.selectedIndex = selectedIndexes;
       } else {
         const index = this.options.findIndex((x) => {
           const value = this.isTextValue ? x.value : x;
-          return value === this.dropDownValue;
+          return value === this.modelValue;
         });
         this.selectedIndex = index >= 0 ? index : 0;
       }
@@ -173,8 +185,8 @@ export default {
         if (value === null) {
           this.selectedIndex = null;
           this.displayOptions = false;
-          this.$emit("update:modelValue", []);
           this.$emit("change", []);
+          this.$emit("update:modelValue", []);
           return;
         }
         const index = this.options.findIndex((x) => {
@@ -184,21 +196,32 @@ export default {
         if (this.selectedIndex.some((x) => x === index)) {
           this.selectedIndex = this.selectedIndex.filter((x) => x !== index);
         } else this.selectedIndex.push(index);
-        const emitPayload = this.isTextValue
-          ? this.options
-              .filter((x, i) => {
-                return this.selectedIndex.some((sel) => sel === i);
-              })
-              .map((x) => x.value)
-          : this.options.filter((x, i) => this.selectedIndex.some((sel) => sel === i));
-
-        this.$emit("update:modelValue", emitPayload);
-        this.$emit("change", emitPayload);
+        this.$emit(
+          "update:modelValue",
+          this.isTextValue
+            ? this.options
+                .filter((x, i) => {
+                  return this.selectedIndex.some((sel) => sel === i);
+                })
+                .map((x) => x.value)
+            : this.options.filter((x, i) => this.selectedIndex.some((sel) => sel === i))
+        );
+        this.$emit(
+          "change",
+          this.isTextValue
+            ? this.options
+                .filter((x, i) => {
+                  return this.selectedIndex.some((sel) => sel === i);
+                })
+                .map((x) => x.value)
+            : this.options.filter((x, i) => this.selectedIndex.some((sel) => sel === i))
+        );
       } else {
         if (value === null) {
           this.selectedIndex = null;
           this.displayOptions = false;
           this.$emit("update:modelValue", null);
+          this.$emit("change", null);
           return;
         }
         const index = this.options.findIndex((x) => {
@@ -207,69 +230,61 @@ export default {
         });
         this.selectedIndex = index;
         this.displayOptions = false;
-        const emitPayload = this.isTextValue ? this.options[this.selectedIndex].value : this.options[this.selectedIndex];
-        this.$emit("update:modelValue", emitPayload);
-        this.$emit("change", emitPayload);
+        this.$emit("update:modelValue", this.isTextValue ? this.options[this.selectedIndex].value : this.options[this.selectedIndex]);
+        this.$emit("change", this.isTextValue ? this.options[this.selectedIndex].value : this.options[this.selectedIndex]);
       }
     }
   }
 };
 </script>
 
-<style lang="scss">
-ul {
-  padding: 0;
-}
-li {
-  list-style: none;
-}
+<style lang="scss" scoped>
 .nav {
   position: relative;
-  margin: 10px 0;
-  &.disabled {
-    pointer-events: none;
-  }
+  margin: 1rem 0;
 }
 .label {
-  margin: 0 0 8px;
-  font: var(--wc-paragraph4-regular-font);
+  font: var(--paragraph4-regular-font);
   color: #1c1c1c;
+  display: flex;
+  align-items: center;
+  margin: 0 0 0.8rem;
 }
 .value {
-  font: var(--wc-paragraph4-regular-font);
+  font: var(--paragraph4-regular-font);
   display: flex;
   justify-content: space-between;
   align-items: center;
   &.no-value {
-    background-color: var(--wc-color-gray-300);
+    background-color: var(--color-gray-300);
   }
 }
 .selected-el {
   cursor: pointer;
   position: relative;
-  padding: 12px 16px;
-  border: 1px solid var(--wc-color-gray-700);
-  border-radius: 6px;
+  padding: 1.2rem 3.2rem 1.2rem 1.6rem;
+  border: 0.1rem solid var(--color-gray-700);
+  border-radius: 0.6rem;
   background-color: white;
   height: 100%;
-  color: var(--wc-color-gray-700);
+  color: var(--color-gray-700);
   text-overflow: ellipsis;
   &.is-selected {
-    color: var(--wc-color-primary-500);
+    color: var(--color-primary-500);
   }
   &.options-open {
-    border: 1px solid var(--wc-color-primary-400);
-    box-shadow: 0px 0px 3px var(--wc-color-primary-400);
+    border: 1px solid var(--color-primary-400);
+    box-shadow: 0px 0px 3px var(--color-primary-400);
   }
 }
 
-.icon {
+.dropdown-icon {
   transition: 0.5s all;
   position: absolute;
   right: 8px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--wc-color-primary-500);
+  color: var(--color-primary-500);
   &.rotate {
     transform: translateY(-50%) scaleY(-1);
   }
@@ -292,28 +307,30 @@ ul {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    filter: drop-shadow(0px 10px 20px var(--color-gray-700));
   }
   li {
-    padding: 10px;
+    padding: 1rem;
     width: 100%;
     cursor: pointer;
-    padding: 12px 24px;
+    padding: 1.2rem 2.4rem;
+
     &:hover {
-      background-color: var(--wc-color-primary-50);
+      background-color: var(--color-primary-100);
     }
   }
 }
 .error-msg {
-  font: var(--wc-paragraph5-regular-font);
-  color: var(--wc-color-status-negative-text);
+  font: var(--paragraph5-regular-font);
+  color: var(--color-status-negative-text);
   text-align: left;
 }
 .dark-mode {
   span {
-    background-color: var(--wc-color-gray-100);
+    background-color: var(--color-gray-100);
   }
   ul {
-    background-color: var(--wc-color-gray-100);
+    background-color: var(--color-gray-100);
     li {
       &:hover {
         background-color: white;
@@ -322,7 +339,14 @@ ul {
   }
 }
 .selected-option-icon {
-  width: 20px;
-  height: 20px;
+  width: 1.6rem;
+  height: 1.6rem;
+  color: var(--color-primary-400);
+}
+.info-helptext {
+  margin-left: 0.8rem;
+}
+.disabled {
+  pointer-events: none;
 }
 </style>

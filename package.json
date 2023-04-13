@@ -24,6 +24,7 @@
     "lodash": "^4.17.21",
     "node-sass": "^7.0.3",
     "sass": "^1.55.0",
+    "uuid": "^9.0.0",
     "vue": "^3.2.37"
   },
   "devDependencies": {

@@ -2,7 +2,7 @@
   <div class="app-checklist">
     <span v-if="label" class="label">{{ label }}</span>
     <div class="options">
-      <app-checkbox
+      <prime-checkbox
         v-for="(option, i) in options"
         :key="i"
         class="option"
@@ -19,28 +19,28 @@ export default {
   props: {
     modelValue: {
       type: [Array, null],
-      default: [],
+      default: []
     },
     options: {
       type: Array,
-      required: true,
+      required: true
     },
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
     label: {
       type: String,
-      default: "",
-    },
+      default: ""
+    }
   },
   methods: {
     itemClick(index, value) {
       const option = this.options[index];
       const modelValue = this.modelValue === null ? [] : this.modelValue;
       this.$emit("update:modelValue", value ? [...modelValue, option] : modelValue.filter((x) => x !== option));
-    },
-  },
+    }
+  }
 };
 </script>
 

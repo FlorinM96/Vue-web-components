@@ -2,21 +2,21 @@
   <div :class="['app-input-phone', { disabled }]" @click="focusInput">
     <label v-if="label" class="label">
       {{ label }}
-      <app-tooltip v-if="info" class="info-helptext">
-        <template v-slot:content>
+      <prime-tooltip v-if="info" class="info-helptext">
+        <span slot="content">
           {{ info }}
-        </template>
-      </app-tooltip>
+        </span>
+      </prime-tooltip>
     </label>
 
     <div :class="['input-wrapper', { error }]">
       <div class="country-dd">
         <div class="selected-country-wrapper" @click.stop="toggleOptions">
           <p class="selected-country-value">{{ selectedCountryCode.code }}</p>
-          <app-icon icon="arrow-down" class="selected-country-arrow" />
+          <prime-icon icon="arrow-down" class="selected-country-arrow" />
         </div>
         <div v-if="displayOptions" v-click-outside="hideValues" :class="['options-list', { opened: displayOptions }]">
-          <input v-model="countrySearch" @click.stop class="country-search-input" />
+          <prime-input v-model="countrySearch" @click.stop class="country-search-input" />
           <ul>
             <li class="disabled" v-if="!dropdownOptions.length"><p>No results found</p></li>
             <li
@@ -28,7 +28,7 @@
             >
               <p class="option-code">{{ countryCode.dial_code }}</p>
               <p class="option-country">{{ countryCode.name }}</p>
-              <app-icon v-if="countryCode.dial_code === selectedCountryCode.dial_code" icon="check" class="selected-option-icon" />
+              <prime-icon v-if="countryCode.dial_code === selectedCountryCode.dial_code" icon="check" class="selected-option-icon" />
             </li>
           </ul>
         </div>
@@ -52,14 +52,7 @@
 <script>
 import vClickOutside from "click-outside-vue3";
 import _ from "lodash";
-import AppIcon from "../components/AppIcon.vue";
-import AppTooltip from "../components/AppTooltip.vue";
 export default {
-  name: "wc-input-phone",
-  components: {
-    AppIcon,
-    AppTooltip
-  },
   directives: {
     clickOutside: vClickOutside.directive
   },
@@ -1362,34 +1355,31 @@ export default {
   position: relative;
   width: 100%;
   background: white;
-  font: var(--wc-paragraph4-regular-font);
-  border: 0.2rem solid var(--wc-color-gray-700);
+  font: var(--paragraph4-regular-font);
+  border: 0.2rem solid var(--color-gray-700);
   border-radius: 0.6rem;
   display: flex;
   align-items: center;
   &:hover {
-    border-color: var(--wc-color-gray-900);
+    border-color: var(--color-gray-900);
   }
 }
-p {
-  margin: 0;
-}
+
 .selected-country-wrapper {
   cursor: pointer;
   display: flex;
   align-items: center;
   padding: 1rem 0 1rem 1.6rem;
   .selected-country-value {
-    font: var(--wc-paragraph4-regular-font);
-    margin: 0;
+    font: var(--paragraph4-regular-font);
   }
   .selected-country-arrow {
-    color: var(--wc-color-gray-700);
+    color: var(--color-gray-700);
     height: 2rem;
     width: 2rem;
   }
   &:hover {
-    background-color: var(--wc-color-gray-100);
+    background-color: var(--color-gray-100);
     .selected-country-arrow {
       color: initial;
     }
@@ -1410,30 +1400,17 @@ p {
 
   &.opened {
     display: block;
-    filter: drop-shadow(0px 10px 20px var(--wc-color-gray-700));
+    filter: drop-shadow(0px 10px 20px var(--color-gray-700));
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
   }
   .country-search-input {
     position: sticky;
     top: 0;
+    background-color: white;
     z-index: 1;
-    font: var(--wc-paragraph4-regular-font);
-    width: 100%;
+  }
+  .country-search-input::v-deep .app-input {
     padding: 0.4rem 0.8rem;
-    border: 0.2rem solid var(--wc-color-gray-700);
-    border-radius: 0.6rem;
-    ::placeholder {
-      /* Chrome, Firefox, Opera, Safari 10.1+ */
-      color: var(--wc-color-gray-700);
-    }
-    &:focus,
-    &:focus-visible {
-      border: 2px solid var(--wc-color-primary-400);
-      box-shadow: 0px 0px 3px #5a338b;
-    }
-    &:hover {
-      border-color: var(--wc-color-gray-900);
-    }
   }
 }
 
@@ -1458,14 +1435,14 @@ ul {
     .selected-option-icon {
       width: 1.6rem;
       height: 1.6rem;
-      color: var(--wc-color-primary-400);
+      color: var(--color-primary-400);
       position: absolute;
       right: 0.8rem;
       top: 50%;
       transform: translateY(-50%);
     }
     &:hover {
-      background-color: var(--wc-color-primary-100);
+      background-color: var(--color-primary-100);
     }
   }
 }
@@ -1477,7 +1454,7 @@ ul {
   overflow: hidden;
 }
 .phone-number {
-  font: var(--wc-paragraph4-regular-font);
+  font: var(--paragraph4-regular-font);
   padding: 0;
   border: none;
   outline: none;
@@ -1491,11 +1468,11 @@ ul {
   }
   ::placeholder {
     /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: var(--wc-color-gray-700);
+    color: var(--color-gray-700);
   }
 }
 .label {
-  font: var(--wc-paragraph4-regular-font);
+  font: var(--paragraph4-regular-font);
   color: #1c1c1c;
   display: flex;
   align-items: center;
@@ -1509,8 +1486,8 @@ ul {
   border: 2px solid red;
 }
 .error-msg {
-  font: var(--wc-paragraph5-regular-font);
-  color: var(--wc-color-status-negative-text);
+  font: var(--paragraph5-regular-font);
+  color: var(--color-status-negative-text);
   text-align: left;
 }
 .info-helptext {

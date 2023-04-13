@@ -25,50 +25,50 @@ export default {
   props: {
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
     size: {
       type: String,
       default: "medium",
       validator(value) {
         return ["small", "medium", "large"].includes(value);
-      },
+      }
     },
     to: {
       type: String,
-      default: "",
+      default: ""
     },
     variant: {
       type: String,
       default: "primary",
       validator(value) {
         return ["primary", "secondary", "outline", "text"].includes(value);
-      },
+      }
     },
     icon: {
       type: String,
-      default: "",
+      default: ""
     },
     arrow: {
       type: Boolean,
-      default: false,
+      default: false
     },
     overrideWidth: {
       type: String,
-      default: "",
+      default: ""
     },
     overrideHeight: {
       type: String,
-      default: "",
+      default: ""
     },
     overridePadding: {
       type: String,
-      default: "",
+      default: ""
     },
     overrideStyle: {
       type: Object,
-      default: () => {},
-    },
+      default: () => {}
+    }
   },
   computed: {
     width() {
@@ -82,9 +82,9 @@ export default {
       if (this.icon) result["data-icon"] = this.icon;
       if (this.disabled) result.disabled = "";
       return result;
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss"></style>

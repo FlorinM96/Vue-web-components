@@ -2,10 +2,10 @@
   <div class="app-collapsable-item">
     <div class="title-wrapper" @click="open = !open">
       <div class="title-arrow">
-        <app-icon :icon="'arrow-down'" :class="['collapsable-item-icon', { open }]" />
+        <prime-icon :icon="'arrow-down'" :class="['collapsable-item-icon', { open }]" />
         <span class="title"> <slot name="title"></slot> </span>
       </div>
-      <app-icon v-if="removeEnabled" icon="bin" class="remove-icon" @click="$emit('remove')" />
+      <prime-icon v-if="removeEnabled" icon="bin" class="remove-icon" @click="$emit('remove')" />
     </div>
     <div class="item-body" :class="{ open }">
       <slot name="body"></slot>
@@ -18,12 +18,12 @@ export default {
   props: {
     removeEnabled: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   data: () => ({
-    open: true,
-  }),
+    open: true
+  })
 };
 </script>
 

@@ -2,11 +2,14 @@
   <div :class="['app-input-file', { disabled }]">
     <label v-if="label" class="label">
       {{ label }}
-      <app-tooltip v-if="info" class="info-helptext">
-        <template v-slot:content>
+      <prime-tooltip v-if="info" class="info-helptext">
+        <span slot="content">
           {{ info }}
-        </template>
-      </app-tooltip>
+        </span>
+        <span slot="content">
+          {{ info }}
+        </span>
+      </prime-tooltip>
     </label>
     <div
       class="input-wrapper"
@@ -21,13 +24,13 @@
             <p class="file-name">{{ file.name }}</p>
             <p class="file-size">{{ formatBytes(file.size) }}</p>
           </div>
-          <app-icon icon="delete" class="delete-icon" @click="deleteFile(i)" />
+          <prime-icon icon="delete" class="delete-icon" @click="deleteFile(i)" />
         </div>
       </div>
       <label v-if="!modelValue.length" :for="id" class="label-wrapper">
-        <app-button v-if="!isDraggingOver || disabled" size="small" icon="upload" class="upload-button" @click="handleUploadClick">{{
+        <prime-button v-if="!isDraggingOver || disabled" size="small" icon="upload" class="upload-button" @click="handleUploadClick">{{
           placeholder
-        }}</app-button>
+        }}</prime-button>
         <p class="drop-text">{{ isDraggingOver && !disabled ? "D" : "Or d" }}rop files here</p>
       </label>
       <transition name="fade">
@@ -41,7 +44,7 @@
 
       <div class="add-box">
         <div v-if="modelValue.length && multiple === true" class="add-button" @click="handleUploadClick">
-          <app-icon icon="plus" class="upload-button-small" />
+          <prime-icon icon="plus" class="upload-button-small" />
           <span class="button-text">Add more files</span>
         </div>
       </div>
@@ -66,44 +69,44 @@ export default {
   props: {
     modelValue: {
       type: Array,
-      default: [],
+      default: []
     },
     label: {
       type: String,
-      default: "",
+      default: ""
     },
     required: {
       type: Boolean,
-      default: false,
+      default: false
     },
     info: {
       type: String,
-      default: "",
+      default: ""
     },
     placeholder: {
       type: String,
-      default: "placeholder",
+      default: "placeholder"
     },
     helptext: {
       type: String,
-      default: "",
+      default: ""
     },
     error: {
       type: String,
-      default: "",
+      default: ""
     },
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
     accept: {
       type: String,
-      default: "",
+      default: ""
     },
     multiple: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   data: () => ({
     isDraggingOver: false,
@@ -112,13 +115,13 @@ export default {
     errorMessage: "",
     errors: {
       size: "The maximum file size allowed is 50mb.",
-      count: "A maximum number of 4 files is allowed.",
-    },
+      count: "A maximum number of 4 files is allowed."
+    }
   }),
   computed: {
     id() {
       return uuidv4();
-    },
+    }
   },
   mounted() {
     // add files in hidden input
@@ -180,8 +183,8 @@ export default {
       const i = Math.floor(Math.log(bytes) / Math.log(k));
 
       return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
-    },
-  },
+    }
+  }
 };
 </script>
 

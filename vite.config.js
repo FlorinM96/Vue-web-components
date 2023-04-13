@@ -12,11 +12,14 @@ export default {
     vue({
       template: {
         compilerOptions: {
-          isCustomElement: (tag) => tag.includes("wc-"),
+          isCustomElement: (tag) => tag.includes("prime-"),
           customElement: true,
           css: true
         }
       }
     })
-  ]
+  ],
+  server: {
+    port: 8081
+  }
 };

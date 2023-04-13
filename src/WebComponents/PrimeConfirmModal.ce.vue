@@ -1,12 +1,12 @@
 <template>
-  <app-popup>
+  <prime-popup>
     <h5 class="popup-title">{{ title }}</h5>
     <p v-if="description" class="popup-description">{{ description }}</p>
     <div class="buttons">
-      <app-button class="button" @click="$emit('confirm')">Yes</app-button>
-      <app-button class="button" @click="$emit('cancel')">No</app-button>
+      <prime-button class="button" @click="$emit('confirm')">Yes</prime-button>
+      <prime-button class="button" @click="$emit('cancel')">No</prime-button>
     </div>
-  </app-popup>
+  </prime-popup>
 </template>
 
 <script>
@@ -14,13 +14,13 @@ export default {
   props: {
     title: {
       type: String,
-      required: true,
+      required: true
     },
     description: {
       type: String,
-      default: "",
-    },
-  },
+      default: ""
+    }
+  }
 };
 </script>
 

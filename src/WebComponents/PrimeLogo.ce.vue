@@ -1,6 +1,6 @@
 <template>
   <div :class="['logo', color]" @mouseover="enterHover" @mouseleave="leaveHover">
-    <app-icon :icon="color === 'dark' ? 'signicat-logo-dark' : 'signicat-logo-light'" class="logo-icon" />
+    <prime-icon :icon="color === 'dark' ? 'signicat-logo-dark' : 'signicat-logo-light'" class="logo-icon" />
     <div ref="left" class="left" />
     <div ref="right" class="right" />
   </div>
@@ -11,8 +11,8 @@ export default {
   props: {
     color: {
       type: String,
-      default: "dark",
-    },
+      default: "dark"
+    }
   },
   mounted() {
     this.tween = gsap.timeline({ paused: true });
@@ -21,7 +21,7 @@ export default {
       {
         duration: 0.25,
         borderRadius: "50%",
-        scale: 1.0826,
+        scale: 1.0826
       },
       "start"
     );
@@ -32,8 +32,8 @@ export default {
     },
     leaveHover() {
       this.tween.reverse();
-    },
-  },
+    }
+  }
 };
 </script>
 

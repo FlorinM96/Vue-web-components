@@ -2,22 +2,22 @@
   <div :class="['app-input-date', { disabled }]" v-click-outside="onHidePicker">
     <label v-if="label" class="label">
       {{ label }}
-      <app-tooltip v-if="info" class="info-helptext">
-        <template v-slot:content>
+      <prime-tooltip v-if="info" class="info-helptext">
+        <span slot="content">
           {{ info }}
-        </template>
-      </app-tooltip>
+        </span>
+      </prime-tooltip>
     </label>
     <div class="input-value" @click="togglePicker">
       <span class="value">{{ displayDate || placeholder }}</span>
-      <app-icon icon="calendar" class="calendar-icon" />
+      <prime-icon icon="calendar" class="calendar-icon" />
     </div>
     <div class="picker-popup" :class="{ hidden: !showPicker }">
       <div class="header">
-        <app-icon icon="arrow-left" class="month-icon" :class="{ disabled: activePicker === 'month' }" @click="onPrevious" />
+        <prime-icon icon="arrow-left" class="month-icon" :class="{ disabled: activePicker === 'month' }" @click="onPrevious" />
         <span @click="changePicker('month')">{{ currentMonthLabel }}</span>
         <span @click="changePicker('year')">{{ activePicker === "year" ? `${years[0]}-${years[years.length - 1]}` : currentYear }}</span>
-        <app-icon icon="arrow-right" class="month-icon" :class="{ disabled: activePicker === 'month' }" @click="onNext" />
+        <prime-icon icon="arrow-right" class="month-icon" :class="{ disabled: activePicker === 'month' }" @click="onNext" />
       </div>
 
       <div v-if="activePicker === 'month'" class="month-wrapper">
@@ -44,15 +44,8 @@
 <script>
 import dayjs from "dayjs";
 import vClickOutside from "click-outside-vue3";
-import AppIcon from "../components/AppIcon.vue";
-import AppTooltip from "../components/AppTooltip.vue";
 
 export default {
-  name: "wc-input-date",
-  components: {
-    AppIcon,
-    AppTooltip
-  },
   directives: {
     clickOutside: vClickOutside.directive
   },
@@ -253,23 +246,23 @@ export default {
   border: 2px solid red;
 }
 .error-msg {
-  font: var(--wc-paragraph5-regular-font);
-  color: var(--wc-color-status-negative-text);
+  font: var(--paragraph5-regular-font);
+  color: var(--color-status-negative-text);
   text-align: left;
 }
 .info-helptext {
   margin-left: 0.8rem;
 }
 .label {
-  font: var(--wc-paragraph4-medium-font);
+  font: var(--paragraph4-medium-font);
   color: #1c1c1c;
   display: flex;
   align-items: center;
   margin: 0 0 0.8rem;
 }
 .input-value {
-  font: var(--wc-paragraph4-regular-font);
-  border: 0.2rem solid var(--wc-color-gray-700);
+  font: var(--paragraph4-regular-font);
+  border: 0.2rem solid var(--color-gray-700);
   border-radius: 0.6rem;
   outline: none;
   padding: 1rem 1.6rem;
@@ -302,18 +295,18 @@ export default {
 }
 .header {
   font-size: 1.25rem;
-  color: var(--wc-color-primary-500);
+  color: var(--color-primary-500);
   align-items: center;
   display: flex;
   justify-content: space-between;
   span {
     text-align: center;
-    font: var(--wc-paragraph3-medium-font);
+    font: var(--paragraph3-medium-font);
     cursor: pointer;
     border-radius: 0.8rem;
     padding: 0.8rem;
     &:hover {
-      background: var(--wc-color-primary-100);
+      background: var(--color-primary-100);
     }
   }
   .month-icon {
@@ -323,7 +316,7 @@ export default {
     padding: 0.8rem;
     border-radius: 0.8rem;
     &:hover {
-      background-color: var(--wc-color-primary-50);
+      background-color: var(--color-primary-50);
     }
   }
 }
@@ -337,20 +330,20 @@ export default {
     align-items: center;
     display: flex;
     justify-content: center;
-    color: var(--wc-color-primary-700);
-    font: var(--wc-paragraph4-regular-font);
+    color: var(--color-primary-700);
+    font: var(--paragraph4-regular-font);
     border-radius: 0.8rem;
     cursor: pointer;
     &.today {
-      color: var(--wc-color-primary-accent-500);
-      font: var(--wc-paragraph4-bold-font);
+      color: var(--color-primary-accent-500);
+      font: var(--paragraph4-bold-font);
     }
     &.selected {
-      background: var(--wc-color-primary-accent-500);
+      background: var(--color-primary-accent-500);
       color: white;
     }
     &:not(.selected):hover {
-      background: var(--wc-color-primary-100);
+      background: var(--color-primary-100);
       transition: background 150ms;
     }
   }
@@ -363,24 +356,24 @@ export default {
     align-items: center;
     display: flex;
     justify-content: center;
-    font: var(--wc-paragraph4-bold-font);
-    color: var(--wc-color-primary-700);
+    font: var(--paragraph4-bold-font);
+    color: var(--color-primary-700);
   }
   .day {
     align-items: center;
     display: flex;
     justify-content: center;
-    color: var(--wc-color-primary-700);
-    font: var(--wc-paragraph4-regular-font);
+    color: var(--color-primary-700);
+    font: var(--paragraph4-regular-font);
     opacity: 0.4;
     border-radius: 8px;
     cursor: pointer;
     &.today {
-      color: var(--wc-color-primary-accent-500);
-      font: var(--wc-paragraph4-bold-font);
+      color: var(--color-primary-accent-500);
+      font: var(--paragraph4-bold-font);
     }
     &.selected {
-      background: var(--wc-color-primary-accent-500);
+      background: var(--color-primary-accent-500);
       color: white;
     }
 
@@ -397,7 +390,7 @@ export default {
     }
 
     &:not(.selected):hover {
-      background: var(--wc-color-primary-100);
+      background: var(--color-primary-100);
       transition: background 150ms;
     }
   }

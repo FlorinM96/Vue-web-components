@@ -1,17 +1,19 @@
 <template>
-  <button :class="['button', size, variant, { disabled }]">
-    <app-icon :icon="icon" class="icon" />
+  <button v-if="!to" :class="['app-icon-button', size, variant, { disabled }]">
+    <prime-icon :icon="icon" class="button-icon" />
   </button>
+  <router-link v-else :to="to" :class="['app-icon-button', size, variant, { disabled }]">
+    <prime-icon :icon="icon" class="button-icon" />
+  </router-link>
 </template>
 
 <script>
-import AppIcon from "../components/AppIcon.vue";
 export default {
-  name: "wc-icon-button",
-  components: {
-    AppIcon
-  },
   props: {
+    to: {
+      type: String,
+      default: null
+    },
     icon: {
       type: String,
       required: true
@@ -20,7 +22,7 @@ export default {
       type: String,
       default: "large",
       validator(value) {
-        return ["medium", "large"].includes(value);
+        return ["small", "medium", "large"].includes(value);
       }
     },
     variant: {
@@ -38,12 +40,10 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.button {
-  // reset default values
+<style lang="scss" scoped>
+.app-icon-button {
   background: none;
   color: inherit;
-  border: none;
   padding: 0;
   font: inherit;
   outline: inherit;
@@ -52,57 +52,59 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 2px solid transparent;
+  background-clip: padding-box;
   &.disabled {
     pointer-events: none;
     opacity: 0.6;
   }
   &.primary {
-    background-color: var(--wc-color-primary-400);
-    color: var(--wc-color-base-white);
+    background-color: var(--color-primary-400);
+    color: var(--color-base-white);
     &:hover {
-      background-color: var(--wc-color-primary-500);
+      background-color: var(--color-primary-500);
     }
     &:focus {
       outline-style: solid;
       outline-width: 2px;
-      outline-color: var(--wc-color-primary-400);
+      outline-color: var(--color-primary-400);
     }
   }
   &.secondary {
-    background-color: var(--wc-color-secondary-500);
-    color: var(--wc-color-primary-500);
+    background-color: var(--color-secondary-500);
+    color: var(--color-primary-500);
     &:hover {
-      background-color: var(--wc-color-secondary-600);
+      background-color: var(--color-secondary-600);
     }
     &:focus {
       outline-style: solid;
       outline-width: 2px;
-      outline-color: var(--wc-color-secondary-500);
+      outline-color: var(--color-secondary-500);
     }
   }
   &.outline {
     background-color: transparent;
-    color: var(--wc-color-primary-500);
-    border: 1px solid var(--wc-color-primary-200);
+    color: var(--color-primary-500);
+    border: 1px solid var(--color-primary-200);
     &:hover {
-      background-color: var(--wc-color-primary-50);
+      background-color: var(--color-primary-50);
     }
     &:focus {
       outline-style: solid;
       outline-width: 2px;
-      outline-color: var(--wc-color-primary-400);
+      outline-color: var(--color-primary-400);
     }
   }
   &.text {
     background-color: transparent;
-    color: var(--wc-color-primary-500);
+    color: var(--color-primary-500);
     &:hover {
-      background-color: var(--wc-color-primary-50);
+      background-color: var(--color-primary-50);
     }
     &:focus {
       outline-style: solid;
       outline-width: 2px;
-      outline-color: var(--wc-color-primary-400);
+      outline-color: var(--color-primary-400);
     }
   }
 }
@@ -110,9 +112,12 @@ export default {
 .medium {
   padding: 12px;
 }
+.small {
+  padding: 6px;
+}
 .large {
   padding: 16px;
-  .icon {
+  .button-icon {
     width: 30px;
     height: 30px;
   }

@@ -2,11 +2,11 @@
   <div :class="['form-input', { disabled }]">
     <label v-if="label" class="label">
       {{ label }}
-      <app-tooltip v-if="info" class="info-helptext">
-        <template v-slot:content>
+      <prime-tooltip v-if="info" class="info-helptext">
+        <span slot="content">
           {{ info }}
-        </template>
-      </app-tooltip>
+        </span>
+      </prime-tooltip>
     </label>
     <textarea
       v-if="type === 'textArea'"
@@ -21,7 +21,6 @@
     <input
       v-else
       :value="modelValue"
-      class="app-input"
       :class="['app-input', { error }]"
       :type="type === 'phone' ? 'tel' : type"
       ref="customInput"
@@ -33,13 +32,7 @@
 </template>
 
 <script>
-import AppTooltip from "../components/AppTooltip.vue";
-
 export default {
-  name: "wc-input",
-  components: {
-    AppTooltip
-  },
   props: {
     modelValue: {
       type: [String, Number],
@@ -57,7 +50,7 @@ export default {
       type: String,
       default: "text",
       validator(value) {
-        return ["text", "password", "email", "textArea", "time"].includes(value);
+        return ["text", "password", "email", "textArea", "time", "phone"].includes(value);
       }
     },
     rows: {
@@ -90,32 +83,31 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .app-input {
-  font: var(--wc-paragraph4-regular-font);
+  font: var(--paragraph4-regular-font);
   width: 100%;
   background: white;
   border: none;
   display: block;
   padding: 1rem 1.6rem;
-  border: 0.2rem solid var(--wc-color-gray-700);
+  border: 0.2rem solid var(--color-gray-700);
   border-radius: 0.6rem;
   ::placeholder {
     /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: var(--wc-color-gray-700);
+    color: var(--color-gray-700);
   }
   &:focus,
   &:focus-visible {
-    border: 2px solid var(--wc-color-primary-400);
+    border: 2px solid var(--color-primary-400);
     box-shadow: 0px 0px 3px #5a338b;
   }
   &:hover {
-    border-color: var(--wc-color-gray-900);
+    border-color: var(--color-gray-900);
   }
 }
-
 .label {
-  font: var(--wc-paragraph4-medium-font);
+  font: var(--paragraph4-medium-font);
   color: #1c1c1c;
   display: flex;
   align-items: center;
@@ -129,8 +121,8 @@ export default {
   border: 2px solid red;
 }
 .error-msg {
-  font: var(--wc-paragraph5-regular-font);
-  color: var(--wc-color-status-negative-text);
+  font: var(--paragraph5-regular-font);
+  color: var(--color-status-negative-text);
   text-align: left;
 }
 .info-helptext {

@@ -3,7 +3,7 @@
     <span v-if="label" class="label">{{ label }}</span>
     <div class="checkbox-text-wrapper">
       <div class="checkbox" :class="{ 'checkbox--checked': modelValue }" @click="check">
-        <app-icon class="checkbox-icon" icon="check" />
+        <prime-icon class="checkbox-icon" icon="check" />
       </div>
       <span v-if="checkboxText" class="text">{{ checkboxText }}</span>
     </div>
@@ -15,32 +15,32 @@ export default {
   props: {
     modelValue: {
       type: Boolean,
-      default: true,
+      default: true
     },
     uncheck: {
       type: Boolean,
-      default: true,
+      default: true
     },
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
     checkboxText: {
       type: String,
-      default: "",
+      default: ""
     },
     label: {
       type: String,
-      default: "",
-    },
+      default: ""
+    }
   },
   methods: {
     check() {
       if (this.uncheck || !this.modelValue) {
         this.$emit("update:modelValue", !this.modelValue);
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

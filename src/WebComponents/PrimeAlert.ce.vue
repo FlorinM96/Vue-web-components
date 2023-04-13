@@ -17,40 +17,40 @@ export default {
       default: "positive",
       validator: (val) => {
         return ["positive", "neutral", "informative", "notice", "negative"].includes(val);
-      },
+      }
     },
     title: {
       type: String,
-      default: "",
+      default: ""
     },
     description: {
       type: String,
-      default: "",
+      default: ""
     },
     border: {
       type: Boolean,
-      default: false,
+      default: false
     },
     closeIcon: {
       type: Boolean,
-      default: true,
+      default: true
     },
     okButton: {
       type: Boolean,
-      default: false,
+      default: false
     },
     fixedPosition: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   watch: {
     $props: {
       immediate: true,
       handler() {
         this.validateProps();
-      },
-    },
+      }
+    }
   },
   mounted() {
     if (!this.closeIcon) {
@@ -62,8 +62,8 @@ export default {
       if (!this.title && !this.description) {
         console.error("Please add either email or phone props");
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

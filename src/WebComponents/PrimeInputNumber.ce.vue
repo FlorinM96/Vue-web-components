@@ -1,24 +1,21 @@
 <template>
   <div class="input-number" :class="{ disabled }">
-    <label v-if="label" :for="'#numberInput-' + label" class="label">{{ label }}</label>
+    <label v-if="label" :for="id" class="label">
+      {{ label }}
+      <prime-tooltip v-if="info" class="info-helptext">
+        <span slot="content">
+          {{ info }}
+        </span>
+      </prime-tooltip>
+    </label>
     <div class="input-wrapper">
-      <input
-        ref="inputNumber"
-        class="input"
-        type="text"
-        :id="'#numberInput-' + label"
-        :min="minValue"
-        :max="maxValue"
-        :value="parsedValue"
-        :placeholder="placeholder"
-        @input="onInput"
-      />
+      <input ref="inputNumber" class="input" type="text" :id="id" :value="parsedValue" :placeholder="placeholder" @input="onInput" />
       <div class="buttons">
-        <div class="input-button input-up" tabindex="-1" @click="plus">
-          <app-icon class="up" icon="arrow-up" />
+        <div class="input-button input-up" :class="{ disabled: modelValue >= maxValue }" tabindex="-1" @click="plus">
+          <prime-icon class="up" icon="arrow-up" />
         </div>
-        <div class="input-button input-down" tabindex="-1" @click="minus">
-          <app-icon class="down" icon="arrow-down" />
+        <div class="input-button input-down" :class="{ disabled: modelValue <= minValue }" tabindex="-1" @click="minus">
+          <prime-icon class="down" icon="arrow-down" />
         </div>
       </div>
     </div>
@@ -26,12 +23,7 @@
 </template>
 
 <script>
-import AppIcon from "../components/AppIcon.vue";
 export default {
-  name: "wc-input-number",
-  components: {
-    AppIcon
-  },
   props: {
     label: {
       type: String,
@@ -69,18 +61,21 @@ export default {
       type: Boolean,
       default: false
     },
-    /**
-     * Thw width of the input
-     */
-
     disabled: {
       type: Boolean,
       default: false
+    },
+    info: {
+      type: String,
+      default: ""
     }
   },
   computed: {
     parsedValue() {
       return this.parseValue(this.modelValue);
+    },
+    id() {
+      return Math.random().toString(36).replace(".", "").toUpperCase().substring(0, 10);
     }
   },
   methods: {
@@ -117,7 +112,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .input-number {
   &.disabled {
     pointer-events: none;
@@ -128,29 +123,30 @@ export default {
   align-items: center;
 }
 .input {
-  font: var(--wc-paragraph2-regular-font);
-  height: 100%;
+  font: var(--paragraph4-regular-font);
+  min-height: 4.5rem;
   -moz-appearance: textfield;
   background: white;
   display: block;
-  padding: 12px 16px;
-  border: 2px solid var(--wc-color-gray-700);
-  border-radius: 6px;
+  padding: 1rem 1.6rem;
+  border: 0.2rem solid var(--color-gray-700);
+  border-radius: 0.6rem;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   border-right: none;
   flex-grow: 1;
+  margin: 0;
   ::placeholder {
     /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: var(--wc-color-gray-700);
+    color: var(--color-gray-700);
   }
   &:focus,
   &:focus-visible {
-    border: 2px solid var(--wc-color-primary-400);
+    border: 2px solid var(--color-primary-400);
     box-shadow: 0px 0px 3px #5a338b;
   }
   &:hover {
-    border-color: var(--wc-color-gray-900);
+    border-color: var(--color-gray-900);
   }
 }
 .input::-webkit-outer-spin-button,
@@ -162,29 +158,37 @@ export default {
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  min-width: 3rem;
   align-self: stretch;
-  border-top-right-radius: 6px;
-  border-bottom-right-radius: 6px;
+  border-top-right-radius: 0.6rem;
+  border-bottom-right-radius: 0.6rem;
   overflow: hidden;
 }
 .input-button {
-  min-height: 50%;
+  cursor: pointer;
+  height: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--wc-color-gray-700);
-  border: 1px solid var(--wc-color-gray-700);
-  width: 40px;
+  background: var(--color-gray-700);
+  border: 1px solid var(--color-gray-700);
+  width: 3rem;
   position: relative;
   outline: none;
   transition: background 0.2s ease-in-out;
   &:hover {
     background: #dadada;
   }
+  &.disabled {
+    opacity: 0.7;
+  }
 }
 .label {
-  font: var(--wc-paragraph4-regular-font);
+  font: var(--paragraph4-medium-font);
   color: #1c1c1c;
+  display: flex;
+  align-items: center;
+  margin: 0 0 0.8rem;
 }
 .input-up {
   border-bottom: none;
@@ -192,12 +196,17 @@ export default {
 .input-down {
   border-top: none;
 }
-.up {
-  position: absolute;
-  top: 2px;
-}
+.up,
 .down {
   position: absolute;
-  bottom: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.info-helptext {
+  margin-left: 0.8rem;
+}
+.disabled {
+  pointer-events: none;
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="app-tooltip">
     <div class="anchor">
       <slot name="anchor">
-        <app-icon icon="info" class="info-icon" />
+        <prime-icon icon="info" class="info-icon" />
       </slot>
     </div>
     <div :class="['content', `position__${direction}`]">
@@ -12,12 +12,7 @@
 </template>
 
 <script>
-import AppIcon from "./AppIcon.vue";
-
 export default {
-  components: {
-    AppIcon
-  },
   props: {
     direction: {
       type: String,

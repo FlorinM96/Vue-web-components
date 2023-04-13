@@ -1,7 +1,7 @@
 <template>
   <div class="popup-bg">
     <div class="popup">
-      <app-icon v-if="showClose" icon="close" class="close-button" @click="$emit('close')" />
+      <prime-icon v-if="showClose" icon="close" class="close-button" @click="$emit('close')" />
       <slot />
     </div>
   </div>
@@ -12,9 +12,9 @@ export default {
   props: {
     showClose: {
       type: Boolean,
-      default: false,
-    },
-  },
+      default: false
+    }
+  }
 };
 </script>
 
