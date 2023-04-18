@@ -1,5 +1,5 @@
 <template>
-  <div :class="['form-input', { disabled }]">
+  <div :class="{ disabled }" class="form-input">
     <label v-if="label" class="label">
       {{ label }}
       <prime-tooltip v-if="info" class="info-helptext">

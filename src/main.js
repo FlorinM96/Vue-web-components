@@ -1,10 +1,22 @@
-import { defineCustomElement } from "vue";
+import { defineCustomElement, createApp } from "vue";
+// import _ from "lodash";
+// const modelDirectiveCallback = (el, binding) => {
+//   el.modelValue = binding.value;
+//   const key = Object.keys(binding.instance.$data).find((x) => _.isEqual(binding.instance[x], binding.value));
+//   const inputHandler = function inputHandler(event) {
+//     binding.instance[key] = event.detail[0];
+//   };
+//   el.addEventListener("update:modelValue", inputHandler);
+// };
 
 const modules = import.meta.globEager("./WebComponents/*.ce.vue");
+
 // For each matching file name...
 Object.keys(modules).forEach((fileName) => {
   // Get component config
   const componentConfig = modules[fileName].default || modules[fileName];
+  if (fileName.includes("Input.ce.vue")) console.log(componentConfig);
+
   const sharedStyle = `
         *,
         :after,
@@ -17,12 +29,28 @@ Object.keys(modules).forEach((fileName) => {
   if (componentConfig.styles) componentConfig.styles.push(sharedStyle);
   else componentConfig.styles = [sharedStyle];
 
+  // // register directive
+  // componentConfig.directives = componentConfig.directives
+  //   ? { ...componentConfig.directives, "pr-model": modelDirectiveCallback }
+  //   : {
+  //       "pr-model": modelDirectiveCallback
+  //     };
+
   const componentName = fileName
     .replace(/^\.\/\w+\/(.*)\.\w+\.\w+$/, "$1") // remove paths
     .replace(/([a-z0–9])([A-Z])/g, "$1-$2") // transform to kebab-case
     .toLowerCase(); // lowercase
   customElements.define(componentName, defineCustomElement(componentConfig));
 });
+
+// for vue apps
+export const vueDirective = {
+  name: "prime-model",
+  install: (app, _options) => {
+    app.directive("pr-model", modelDirectiveCallback);
+  }
+};
+
 // // <link> for fonts
 // let hasWCFonts = false;
 // for (let item of document.head.getElementsByTagName("link")) {
@@ -50,26 +78,3 @@ Object.keys(modules).forEach((fileName) => {
 //   style.id = "wc-styles";
 //   style.appendChild(document.createTextNode(css));
 // }
-
-// app.directive("prime-model", {
-//   bind(el, binding, vnode) {
-//     const inputHandler = (event) => (vnode.context.$data[binding.expression] = event.target.value);
-//     el.addEventListener("update:modelValue", inputHandler);
-//   }
-// });
-
-// for vue apps
-export default {
-  name: "prime-model",
-  install: (app, _options) => {
-    // v-model directive
-    app.directive("prime-model", (el, binding, vnode) => {
-      el.modelValue = binding.value; // for static values
-      const inputHandler = function inputHandler(event) {
-        console.log(binding.instance[binding.value]);
-        return (binding.instance[binding.value] = event.detail[0]);
-      };
-      el.addEventListener("update:modelValue", inputHandler);
-    });
-  }
-};

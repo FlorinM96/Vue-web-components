@@ -7,7 +7,7 @@
         :key="i"
         class="option"
         :checkbox-text="option"
-        :modelValue="modelValue && modelValue.includes(option)"
+        :modelValue="modelValue?.includes(option)"
         @update:modelValue="itemClick(i, $event)"
       />
     </div>

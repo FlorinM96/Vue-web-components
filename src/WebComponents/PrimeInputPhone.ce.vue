@@ -16,7 +16,7 @@
           <prime-icon icon="arrow-down" class="selected-country-arrow" />
         </div>
         <div v-if="displayOptions" v-click-outside="hideValues" :class="['options-list', { opened: displayOptions }]">
-          <prime-input v-model="countrySearch" @click.stop class="country-search-input" />
+          <prime-input v-pr-model="countrySearch" @click.stop class="country-search-input"></prime-input>
           <ul>
             <li class="disabled" v-if="!dropdownOptions.length"><p>No results found</p></li>
             <li
@@ -52,9 +52,11 @@
 <script>
 import vClickOutside from "click-outside-vue3";
 import _ from "lodash";
+import directives from "../helpers/directives";
 export default {
   directives: {
-    clickOutside: vClickOutside.directive
+    clickOutside: vClickOutside.directive,
+    prModel: directives.prModel
   },
   props: {
     modelValue: {
