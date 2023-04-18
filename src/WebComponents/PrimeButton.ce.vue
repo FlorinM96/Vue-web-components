@@ -1,6 +1,5 @@
 <template>
   <button
-    v-if="!to"
     type="button"
     v-bind="attributes"
     :class="['btn', `btn--${variant}`, `btn--${size}`]"
@@ -8,16 +7,6 @@
   >
     <slot />
   </button>
-  <router-link v-else :to="to">
-    <button
-      type="button"
-      v-bind="attributes"
-      :class="['btn', `btn--${variant}`, `btn--${size}`, { 'btn--arrow': arrow }]"
-      :style="{ padding: overridePadding, width, height, overrideStyle }"
-    >
-      <slot />
-    </button>
-  </router-link>
 </template>
 
 <script>
@@ -87,4 +76,6 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+@import "https://static.signicat.dev/prime-assets/styles-latest.css";
+</style>

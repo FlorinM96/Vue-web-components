@@ -71,8 +71,8 @@ export default {
   justify-content: center;
 }
 .checkbox--checked {
-  background-color: var(--color-primary-400);
-  border-color: var(--color-primary-400);
+  background-color: var(--color-primary-accent-500);
+  border-color: var(--color-primary-accent-500);
   .checkbox-icon {
     transform: scale3d(1, 1, 1);
   }

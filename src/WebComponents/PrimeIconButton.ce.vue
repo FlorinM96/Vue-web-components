@@ -59,10 +59,10 @@ export default {
     opacity: 0.6;
   }
   &.primary {
-    background-color: var(--color-primary-400);
+    background-color: var(--color-primary-accent-500);
     color: var(--color-base-white);
     &:hover {
-      background-color: var(--color-primary-500);
+      background-color: var(--color-primary-accent-600);
     }
     &:focus {
       outline-style: solid;

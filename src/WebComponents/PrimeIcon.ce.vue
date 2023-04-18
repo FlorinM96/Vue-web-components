@@ -66,3 +66,9 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+svg {
+  width: inherit;
+  height: inherit;
+}
+</style>

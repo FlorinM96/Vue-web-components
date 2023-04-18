@@ -67,4 +67,6 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+@import "https://static.signicat.dev/prime-assets/styles-latest.css";
+</style>

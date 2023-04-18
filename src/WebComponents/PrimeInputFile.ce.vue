@@ -189,11 +189,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.app-input-file {
-  &.disabled {
-    pointer-events: none;
-  }
-}
 .input-wrapper {
   display: flex;
   flex-direction: column;
