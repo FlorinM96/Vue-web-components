@@ -59,7 +59,7 @@ Object.keys(modules).forEach((fileName) => {
 // });
 
 // for vue apps
-export const vueDirective = {
+export default {
   name: "prime-model",
   install: (app, _options) => {
     // v-model directive
