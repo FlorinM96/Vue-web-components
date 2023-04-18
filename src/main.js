@@ -6,13 +6,14 @@ Object.keys(modules).forEach((fileName) => {
   // Get component config
   const componentConfig = modules[fileName].default || modules[fileName];
   const sharedStyle = `
-  *,
-  :after,
-  :before {
-  box-sizing: border-box;
-  margin: 0;
-}
-`;
+        *,
+        :after,
+        :before {
+        box-sizing: border-box;
+        margin: 0;
+      }`;
+
+  // add sharedStyles to component
   if (componentConfig.styles) componentConfig.styles.push(sharedStyle);
   else componentConfig.styles = [sharedStyle];
 
@@ -22,7 +23,6 @@ Object.keys(modules).forEach((fileName) => {
     .toLowerCase(); // lowercase
   customElements.define(componentName, defineCustomElement(componentConfig));
 });
-
 // // <link> for fonts
 // let hasWCFonts = false;
 // for (let item of document.head.getElementsByTagName("link")) {
@@ -57,3 +57,19 @@ Object.keys(modules).forEach((fileName) => {
 //     el.addEventListener("update:modelValue", inputHandler);
 //   }
 // });
+
+// for vue apps
+export const vueDirective = {
+  name: "prime-model",
+  install: (app, _options) => {
+    // v-model directive
+    app.directive("prime-model", (el, binding, vnode) => {
+      el.modelValue = binding.value; // for static values
+      const inputHandler = function inputHandler(event) {
+        console.log(binding.instance[binding.value]);
+        return (binding.instance[binding.value] = event.detail[0]);
+      };
+      el.addEventListener("update:modelValue", inputHandler);
+    });
+  }
+};

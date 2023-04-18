@@ -1,19 +1,12 @@
 <template>
-  <button v-if="!to" :class="['app-icon-button', size, variant, { disabled }]">
+  <button :class="['app-icon-button', size, variant, { disabled }]">
     <prime-icon :icon="icon" class="button-icon" />
   </button>
-  <router-link v-else :to="to" :class="['app-icon-button', size, variant, { disabled }]">
-    <prime-icon :icon="icon" class="button-icon" />
-  </router-link>
 </template>
 
 <script>
 export default {
   props: {
-    to: {
-      type: String,
-      default: null
-    },
     icon: {
       type: String,
       required: true
